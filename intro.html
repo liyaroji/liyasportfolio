@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIYA ELIZABETH Roji – Glitch</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a3d3a;
+    --accent: #c8d44e;
+    --accent2: #a0b830;
+    --dark: #0f2724;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .wrapper {
+    position: relative;
+    width: 700px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---- VERTICAL SIDE TEXT ---- */
+  .side-text {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 4px;
+    opacity: 0.7;
+    white-space: nowrap;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* ---- DIAMOND ACCENT ---- */
+  .diamond {
+    position: absolute;
+    right: -6px;
+    bottom: 80px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    transform: rotate(45deg);
+  }
+  .circle-num {
+    position: absolute;
+    right: -14px;
+    bottom: 30px;
+    width: 34px;
+    height: 34px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    color: var(--accent);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1px;
+  }
+
+  /* ---- DOTS SCATTERED ---- */
+  .dots-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* ---- HEXAGON LOGO ---- */
+  .logo-wrap {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin-bottom: 30px;
+  }
+
+  #logoCanvas {
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  /* ---- MAIN TEXT ---- */
+  .main-name {
+    font-family: 'Cinzel', serif;
+    font-size: 62px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 6px;
+    text-align: center;
+    line-height: 1;
+    position: relative;
+  }
+
+  .main-name .sub {
+    display: block;
+    font-size: 18px;
+    letter-spacing: 12px;
+    margin-top: 6px;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  /* Glitch effect on main text */
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+  }
+  .glitch-text::before {
+    animation: glitchTop 3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-2px, -2px);
+    color: #80ffcc;
+    opacity: 0.7;
+  }
+  .glitch-text::after {
+    animation: glitchBot 3s infinite 0.5s;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(2px, 2px);
+    color: #ffcc44;
+    opacity: 0.6;
+  }
+
+  @keyframes glitchTop {
+    0%,90%,100% { transform: translate(0,0); opacity: 0; }
+    91%    { transform: translate(-3px,-2px); opacity: 0.8; clip-path: polygon(0 10%, 100% 10%, 100% 40%, 0 40%); }
+    93%    { transform: translate(3px, 1px); opacity: 0.6; clip-path: polygon(0 5%, 100% 5%, 100% 25%, 0 25%); }
+    95%    { transform: translate(-2px,-1px); opacity: 0.9; }
+    97%    { transform: translate(0,0); opacity: 0; }
+  }
+  @keyframes glitchBot {
+    0%,85%,100% { transform: translate(0,0); opacity: 0; }
+    86%    { transform: translate(3px, 2px); opacity: 0.7; clip-path: polygon(0 60%, 100% 60%, 100% 90%, 0 90%); }
+    88%    { transform: translate(-3px,-1px); opacity: 0.5; }
+    90%    { transform: translate(0,0); opacity: 0; }
+  }
+
+  /* scanline */
+  @keyframes scanline {
+    0%   { top: -10%; }
+    100% { top: 110%; }
+  }
+  .scanline {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: rgba(200,212,78,0.08);
+    animation: scanline 5s linear infinite;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  /* pixel grid subtle overlay */
+  .pixel-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,212,78,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,212,78,0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
+    pointer-events: none;
+    z-index: 99;
+  }
+</style>
+</head>
+<body>
+<div class="pixel-overlay"></div>
+
+<div class="wrapper">
+  <div class="scanline"></div>
+
+  <!-- Scattered dots canvas -->
+  <canvas class="dots-canvas" id="dotsCanvas" width="700" height="600"></canvas>
+
+  <!-- Side label -->
+  <div class="side-text">LIYA ELIZABETH ROJI</div>
+  <div class="diamond"></div>
+
+  <!-- Hexagon logo -->
+  <div class="logo-wrap">
+    <canvas id="logoCanvas" width="240" height="240"></canvas>
+  </div>
+
+  <!-- Main name -->
+  <div class="main-name">
+    <span class="glitch-text" data-text="LIYA ELIZABETH">LIYA ELIZABETH</span>
+    <span class="sub">R O J I</span>
+  </div>
+</div>
+
+<script>
+// =========================================================
+//  DOTS / PARTICLE FIELD
+// =========================================================
+const dotsCanvas = document.getElementById('dotsCanvas');
+const dctx = dotsCanvas.getContext('2d');
+const ACCENT = '#c8d44e';
+
+const dots = Array.from({length: 55}, () => ({
+  x: Math.random() * 700,
+  y: Math.random() * 280,
+  r: Math.random() < 0.3 ? 2 : 1,
+  opacity: 0.3 + Math.random() * 0.6,
+  blinkSpeed: 0.01 + Math.random() * 0.03,
+  phase: Math.random() * Math.PI * 2
+}));
+
+// Small pixel dashes
+const dashes = Array.from({length: 18}, () => ({
+  x: 200 + Math.random() * 300,
+  y: 30 + Math.random() * 200,
+  w: 2 + Math.floor(Math.random() * 3) * 2,
+  h: 6 + Math.floor(Math.random() * 4) * 4,
+  opacity: 0.4 + Math.random() * 0.5
+}));
+
+function drawDots(t) {
+  dctx.clearRect(0, 0, 700, 600);
+  dots.forEach(d => {
+    const op = d.opacity * (0.6 + 0.4 * Math.sin(t * d.blinkSpeed + d.phase));
+    dctx.fillStyle = ACCENT;
+    dctx.globalAlpha = op;
+    dctx.fillRect(Math.round(d.x), Math.round(d.y), d.r * 2, d.r * 2);
+  });
+  dashes.forEach(d => {
+    dctx.globalAlpha = d.opacity * (0.5 + 0.5 * Math.sin(t * 0.02 + d.x));
+    dctx.fillRect(Math.round(d.x), Math.round(d.y), d.w, d.h);
+  });
+  dctx.globalAlpha = 1;
+}
+
+// =========================================================
+//  CPU / CIRCUIT CHIP LOGO (8-bit glitch style)
+//  — A square CPU die with pins sticking out on all 4 sides,
+//    inner grid of circuit traces, and corner notch
+// =========================================================
+const lc = document.getElementById('logoCanvas');
+const ctx = lc.getContext('2d');
+const CX = 120, CY = 120;
+
+// Pixel-snapped line helper
+function pixelLine(ctx, x1, y1, x2, y2, color, alpha=1, ps=2) {
+  ctx.fillStyle = color;
+  ctx.globalAlpha = alpha;
+  const dx = x2-x1, dy = y2-y1;
+  const steps = Math.max(Math.abs(dx), Math.abs(dy)) / ps;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const px = Math.round((x1 + dx*t) / ps) * ps;
+    const py = Math.round((y1 + dy*t) / ps) * ps;
+    ctx.fillRect(px, py, ps, ps);
+  }
+  ctx.globalAlpha = 1;
+}
+
+function pixelRect(ctx, x, y, w, h, color, alpha=1, ps=2) {
+  // Draw outline rect pixel-snapped
+  pixelLine(ctx, x,   y,   x+w, y,   color, alpha, ps); // top
+  pixelLine(ctx, x+w, y,   x+w, y+h, color, alpha, ps); // right
+  pixelLine(ctx, x+w, y+h, x,   y+h, color, alpha, ps); // bottom
+  pixelLine(ctx, x,   y+h, x,   y,   color, alpha, ps); // left
+}
+
+// Glitch state
+let glitchTimer = 0, glitchActive = false;
+let glitchSlices = [];
+
+function maybeGlitch() {
+  if (!glitchActive && Math.random() < 0.008) {
+    glitchActive = true;
+    glitchTimer = 10 + Math.random() * 18;
+    glitchSlices = Array.from({length: 3}, () => ({
+      y:  40 + Math.random() * 160,
+      h:  2  + Math.random() * 8,
+      dx: (Math.random() - 0.5) * 16
+    }));
+  }
+  if (glitchActive) { glitchTimer--; if (glitchTimer <= 0) glitchActive = false; }
+}
+
+function drawLogo(t) {
+  ctx.clearRect(0, 0, 240, 240);
+
+  const ps = 2; // pixel size
+  const C = ACCENT;
+  const DIM = 110; // chip die half-size
+  const L = CX - DIM/2, T = CY - DIM/2; // top-left of chip square
+  const R2 = L + DIM, B = T + DIM;
+
+  // --- OUTER CHIP BORDER ---
+  pixelRect(ctx, L, T, DIM, DIM, C, 0.95, ps);
+
+  // Corner notch (top-left) — classic IC notch
+  const notch = 12;
+  // overdraw corner white then re-draw notch arc
+  ctx.fillStyle = '#1a3d3a';
+  ctx.globalAlpha = 1;
+  ctx.fillRect(L, T, notch, notch);
+  // notch arc (pixel-circle quarter)
+  for (let angle = 180; angle <= 270; angle += 6) {
+    const rad = angle * Math.PI / 180;
+    const nx = Math.round((L + notch + Math.cos(rad) * notch) / ps) * ps;
+    const ny = Math.round((T + notch + Math.sin(rad) * notch) / ps) * ps;
+    ctx.fillStyle = C;
+    ctx.globalAlpha = 0.9;
+    ctx.fillRect(nx, ny, ps, ps);
+  }
+  ctx.globalAlpha = 1;
+
+  // --- INNER DIE BORDER (slightly inset) ---
+  const inset = 10;
+  pixelRect(ctx, L+inset, T+inset, DIM-inset*2, DIM-inset*2, C, 0.45, ps);
+
+  // --- CIRCUIT TRACES inside die ---
+  // Horizontal grid lines
+  for (let row = 1; row <= 4; row++) {
+    const y = T + inset + Math.round((DIM - inset*2) / 5 * row);
+    pixelLine(ctx, L+inset, y, R2-inset, y, C, 0.25, ps);
+  }
+  // Vertical grid lines
+  for (let col = 1; col <= 4; col++) {
+    const x = L + inset + Math.round((DIM - inset*2) / 5 * col);
+    pixelLine(ctx, x, T+inset, x, B-inset, C, 0.25, ps);
+  }
+
+  // --- TRACE PATHS (L-shaped routes like PCB traces) ---
+  const traces = [
+    // horizontal then vertical
+    [L+inset+10, CY-20, L+inset+36, CY-20],
+    [L+inset+36, CY-20, L+inset+36, CY+10],
+    [CX-10, T+inset+10, CX+20, T+inset+10],
+    [CX+20, T+inset+10, CX+20, T+inset+34],
+    [CX-20, B-inset-10, CX+18, B-inset-10],
+    [R2-inset-10, CY-18, R2-inset-10, CY+16],
+    [L+inset+20, CY+20, L+inset+50, CY+20],
+    [CX+10, CY-30, CX+10, CY+30],
+  ];
+  traces.forEach(([x1,y1,x2,y2]) => pixelLine(ctx, x1,y1,x2,y2, C, 0.55, ps));
+
+  // --- NODES / VIAS (little squares at junctions) ---
+  const nodes = [
+    [L+inset+36, CY-20], [L+inset+36, CY+10],
+    [CX+20, T+inset+10], [CX+20, T+inset+34],
+    [CX-20, B-inset-10], [CX+18, B-inset-10],
+    [R2-inset-10, CY-18], [R2-inset-10, CY+16],
+    [CX+10, CY-30], [CX+10, CY+30],
+    [CX, CY],
+  ];
+  nodes.forEach(([nx,ny]) => {
+    ctx.fillStyle = C;
+    ctx.globalAlpha = 0.8 + 0.2 * Math.sin(t * 0.05 + nx);
+    ctx.fillRect(nx-3, ny-3, 6, 6);
+  });
+  ctx.globalAlpha = 1;
+
+  // --- PINS on all 4 sides ---
+  const pinCount = 5;
+  const pinLen = 16;
+  const pinGap = DIM / (pinCount + 1);
+
+  for (let i = 1; i <= pinCount; i++) {
+    const offset = Math.round(i * pinGap);
+    // Top pins
+    pixelLine(ctx, L+offset, T, L+offset, T-pinLen, C, 0.85, ps);
+    ctx.fillStyle = C; ctx.globalAlpha = 0.85;
+    ctx.fillRect(L+offset-2, T-pinLen-2, 6, 4);
+    // Bottom pins
+    pixelLine(ctx, L+offset, B, L+offset, B+pinLen, C, 0.85, ps);
+    ctx.fillRect(L+offset-2, B+pinLen, 6, 4);
+    // Left pins
+    pixelLine(ctx, L, T+offset, L-pinLen, T+offset, C, 0.85, ps);
+    ctx.fillRect(L-pinLen-4, T+offset-2, 4, 6);
+    // Right pins
+    pixelLine(ctx, R2, T+offset, R2+pinLen, T+offset, C, 0.85, ps);
+    ctx.fillRect(R2+pinLen, T+offset-2, 4, 6);
+  }
+  ctx.globalAlpha = 1;
+
+  // --- BINARY LABEL inside chip (tiny pixel text simulation) ---
+  // Row of tiny dots spelling 01
+  const bits = [1,0,1,1,0,0,1,1];
+  bits.forEach((b, i) => {
+    if (b) {
+      ctx.fillStyle = C;
+      ctx.globalAlpha = 0.5;
+      ctx.fillRect(L + inset + 8 + i * 10, B - inset - 20, 4, 8);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  // --- GLITCH horizontal slice ---
+  if (glitchActive) {
+    ctx.save();
+    glitchSlices.forEach(sl => {
+      ctx.globalAlpha = 0.55;
+      ctx.drawImage(lc, 0, sl.y, 240, sl.h, sl.dx, sl.y, 240, sl.h);
+    });
+    ctx.restore();
+    // Random noise pixels
+    for (let n = 0; n < 8; n++) {
+      ctx.fillStyle = C;
+      ctx.globalAlpha = Math.random() * 0.7;
+      ctx.fillRect(
+        L + Math.random() * DIM,
+        T + Math.random() * DIM,
+        ps * 2, ps
+      );
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+// =========================================================
+//  ANIMATION LOOP
+// =========================================================
+let frame = 0;
+function loop() {
+  frame++;
+  maybeGlitch(frame);
+  drawLogo(frame);
+  drawDots(frame);
+  requestAnimationFrame(loop);
+}
+loop();
+// Redirect to main page after 5 seconds
+setTimeout(() => {
+  window.location.href = "main.html";
+}, 2000);
+</script>
+</body>
+</html>
