@@ -26,5 +26,4 @@ I am a Computer Science student passionate about:
 
 ## 📬 Contact
 - Email: liyaelizabethroji@gmail.com
-- LinkedIn: https://linkedin.com/in/your-link
-- GitHub: https://github.com/liyaroji
+
