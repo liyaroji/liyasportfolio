@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Liya Elizabeth Roji — The Digital Archive</title>
+<meta name="description" content="Walkable portfolio of Liya Elizabeth Roji: CSE student, developer, hackathon winner. AI, IoT, data and full-stack projects.">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Put your licensed Monument Extended in assets/fonts/ — Syne is the fallback */
+@font-face{font-family:"Monument Extended";src:url(assets/fonts/MonumentExtended-Bold.woff2) format("woff2"),url(assets/fonts/MonumentExtended-Bold.otf);font-weight:700;font-display:swap}
+:root{--bg:#080B0A;--t:#1A3D3A;--a:#C8D44E;--m:#00FF99;--tx:#F5F5F0;--gl:rgba(8,14,12,.82);--gh:calc(22vh + env(safe-area-inset-bottom,0px));--hd:"Monument Extended","Syne",sans-serif;--mo:"IBM Plex Mono",monospace;color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font:400 14px/1.6 "Space Grotesk",system-ui,sans-serif}
+body{background:radial-gradient(ellipse 60% 50% at 25% 25%,#1a3d3aaa,transparent 70%),radial-gradient(ellipse 50% 50% at 80% 30%,#00ff9926,transparent 70%),radial-gradient(ellipse 60% 50% at 60% 85%,#c8d44e1f,transparent 70%),var(--bg)}
+:focus-visible{outline:2px solid var(--m);outline-offset:2px}
+a{color:var(--a)}
+#stars{position:fixed;inset:0;width:100%;height:100%}
+#cam{position:absolute;left:0;top:0;height:100%;width:5400px;will-change:transform}
+.ground{position:absolute;left:0;right:0;bottom:0;height:var(--gh);border-top:2px solid var(--a);background:linear-gradient(#c8d44e22 1px,transparent 1px) 0 0/80px 80px,linear-gradient(90deg,#c8d44e22 1px,transparent 1px) 0 0/80px 80px,linear-gradient(var(--t),var(--bg))}
+.planet{position:absolute;border-radius:50%;animation:fl 6s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translateY(-22px)}}
+.title{position:absolute;left:240px;bottom:calc(var(--gh) + 50px);font:700 clamp(40px,7vw,96px)/1 var(--hd);white-space:nowrap}
+.title i{display:block;color:var(--a);font-style:normal;font-size:.5em;margin-top:.2em}
+.title small{display:block;font:13px var(--mo);color:var(--m);margin-top:12px}
+.st{position:absolute;bottom:var(--gh);width:120px;margin-left:-60px;text-align:center;cursor:pointer;background:none;border:0;color:inherit}
+.st .tw{height:150px;width:54px;margin:0 auto;border:2px solid var(--m);border-bottom:0;background:linear-gradient(#00ff9944,transparent);transition:.3s;clip-path:polygon(0 12%,50% 0,100% 12%,100% 100%,0 100%)}
+.st.on .tw{background:linear-gradient(#c8d44e99,transparent);box-shadow:0 0 50px var(--a)}
+.st span{position:absolute;bottom:160px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 12px var(--hd);color:var(--a);animation:fl 2s ease-in-out infinite alternate}
+#pl{position:absolute;bottom:var(--gh);width:60px;height:100px;margin-left:-30px}
+#pl .solid,#pl .ghost{position:absolute;inset:0}
+#pl.walk .solid{animation:bob .3s infinite alternate}@keyframes bob{to{transform:translateY(-6px) rotate(3deg)}}
+.rot{animation:rot .1s infinite alternate;transform-box:fill-box;transform-origin:center}@keyframes rot{to{transform:scaleX(.35)}}
+#pl .ghost{opacity:0}.ghost *{fill:none!important;stroke:#00FF99;stroke-width:1.3}
+#pl.idle .solid{animation:sup 3s infinite}#pl.idle .ghost{animation:sup2 3s infinite}
+@keyframes sup{0%,55%{opacity:1}60%,85%{opacity:.08}90%,100%{opacity:1}}@keyframes sup2{0%,55%{opacity:0}60%,85%{opacity:1}90%,100%{opacity:0}}
+#orb{position:absolute;right:-30px;top:48px;width:14px;height:14px;border-radius:50%;background:radial-gradient(#fff,#00FF99 60%);box-shadow:0 0 16px 6px #00ff9988;animation:fl 1.6s ease-in-out infinite alternate;transition:.3s}
+#pl.near #orb{background:radial-gradient(#fff,#C8D44E 60%);box-shadow:0 0 34px 16px #c8d44eaa}
+.box{position:absolute;bottom:var(--gh);width:46px;height:34px;margin-left:50px;border:2px solid var(--m);background:#1A3D3A}
+.box::before{content:"";position:absolute;left:-2px;right:-2px;top:-9px;height:9px;border:2px solid var(--m);background:#0b1513;transform-origin:left bottom;transition:.5s}
+.box.open{box-shadow:0 -20px 40px #00ff99aa}.box.open::before{transform:rotate(-65deg)}
+#panel{position:fixed;left:max(16px,env(safe-area-inset-left));top:calc(64px + env(safe-area-inset-top));width:min(560px,calc(100vw - 32px));max-height:calc(100% - var(--gh) - 120px);overflow:auto;background:var(--gl);backdrop-filter:blur(10px);border:1px solid #c8d44e88;padding:18px 20px;transform:translateX(-120%);transition:transform .45s cubic-bezier(.2,1.1,.4,1);box-shadow:0 0 40px #00ff9922}
+#panel.show{transform:none}
+h2{font:700 clamp(18px,3vw,26px)/1.1 var(--hd);color:var(--a);margin-bottom:10px}
+h3{font:700 14px var(--hd);margin:14px 0 4px}
+h3 em{font:12px var(--mo);color:var(--m);font-style:normal;display:block;margin-top:3px}
+p,li{color:#d6ded9}li{margin-left:18px}
+.tag{display:inline-block;border:1px solid #00ff9966;color:var(--m);padding:1px 8px;margin:3px 4px 0 0;font:11px var(--mo)}
+.b{display:inline-block;border:1px solid var(--a);color:var(--a);background:none;padding:8px 14px;margin:6px 6px 0 0;font:500 13px "Space Grotesk";cursor:pointer;text-decoration:none}
+.b:hover,.b.on{background:var(--a);color:#000}
+.ph{position:relative;overflow:hidden;background:repeating-linear-gradient(45deg,#1a3d3a66 0 10px,#0b1513 10px 20px);border:1px dashed var(--a);display:flex;align-items:center;justify-content:center;text-align:center;font:11px var(--mo);color:var(--a);padding:8px;min-height:90px}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mas{columns:2 150px;column-gap:10px;margin-top:10px}
+.tile{display:block;width:100%;margin-bottom:10px;break-inside:avoid;position:relative;background:none;border:1px solid #c8d44e44;padding:0;cursor:zoom-in;color:inherit;text-align:left;overflow:hidden}
+.tile .cap{position:absolute;inset:auto 0 0;padding:8px;background:linear-gradient(transparent,#080B0Af0);font-size:12px;transform:translateY(70%);transition:.3s}
+.tile:hover .cap,.tile:focus-visible .cap{transform:none}.tile:hover{border-color:var(--m);box-shadow:0 0 22px #00ff9944}
+.pj{display:block;width:100%;text-align:left;background:none;border:1px solid #c8d44e44;color:inherit;padding:10px;margin-top:8px;cursor:pointer;font:inherit}
+.pj:hover{border-color:var(--m)}.pj b{font:700 13px var(--hd);color:var(--tx)}
+#logo{position:fixed;left:16px;top:calc(16px + env(safe-area-inset-top));font:700 14px var(--hd);color:var(--a);z-index:5}
+#bar{position:fixed;right:16px;top:calc(12px + env(safe-area-inset-top));z-index:9;display:flex;gap:6px}
+#bar .b{margin:0;background:var(--gl)}
+#menu{position:fixed;inset:0;background:#080B0Af2;z-index:8;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+#menu.open{display:flex}#menu button{background:none;border:0;color:var(--tx);font:700 clamp(22px,5vw,44px) var(--hd);cursor:pointer}#menu button:hover{color:var(--a)}
+#map{position:fixed;right:16px;top:calc(62px + env(safe-area-inset-top));width:150px;z-index:5;height:22px;border:1px solid var(--a);background:var(--gl)}
+#map u{position:absolute;top:8px;width:5px;height:5px;background:var(--a);transform:rotate(45deg)}#me{position:absolute;top:4px;width:10px;height:12px;margin-left:-5px;background:var(--m);border-radius:5px}
+#joy{position:fixed;left:16px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:6;display:flex;gap:8px}
+#joy button{width:54px;height:54px;border-radius:50%;border:2px solid var(--a);background:var(--gl);color:var(--a);font:700 16px var(--hd);touch-action:none}
+#joy button:active{background:var(--a);color:#000}
+#hint{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font:11px var(--mo);color:#f5f5f0aa;pointer-events:none}
+@media(max-width:700px){#hint,#map{display:none}#panel{max-height:48vh}}
+#flat{position:fixed;inset:0;z-index:7;background:var(--bg);overflow:auto;display:none;padding:70px clamp(16px,6vw,80px) 60px}
+body.flat #flat{display:block}body.flat #panel,body.flat #joy,body.flat #hint,body.flat #map{display:none}
+#flat section{max-width:900px;margin:0 auto 48px}
+.md{position:fixed;inset:0;z-index:30;background:#050807f5;display:none;overflow:auto;padding:60px clamp(16px,5vw,60px)}.md.on{display:block}
+.cs{max-width:720px;margin:auto;font-size:15px;line-height:1.7}.cs .lead{color:var(--m);font:13px var(--mo);margin-bottom:6px}.cs h3{color:var(--a);margin-top:22px}.cs ul{margin:4px 0 0}
+.lb{position:fixed;inset:0;z-index:40;background:#050807f8;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px;text-align:center}.lb.on{display:flex}
+.lb .ph{width:min(94vw,980px);height:62vh}
+input,textarea{width:100%;background:#0d1a18;border:1px solid #c8d44e66;color:var(--tx);padding:8px;margin-top:6px;font:inherit}
+.cp{position:fixed;top:-20px;width:8px;height:14px;z-index:50;pointer-events:none;animation:cpf linear forwards}@keyframes cpf{to{transform:translate(var(--x),105vh) rotate(var(--r))}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div id="logo">LIYA_ELIZABETH_ROJI</div>
+<div id="bar"><button class="b" id="fv" aria-pressed="false">Recruiter view</button><button class="b" id="burger" aria-expanded="false">Menu</button></div>
+<div id="menu" role="navigation" aria-label="Sections"></div>
+<div id="map" aria-hidden="true"><span id="me"></span></div>
+<div id="cam">
+ <div class="planet" style="left:520px;top:18%;width:150px;height:150px;background:radial-gradient(circle at 30% 30%,#9fffd6,#1a3d3a 60%,#080B0A)"></div>
+ <div class="planet" style="left:1800px;top:12%;width:90px;height:90px;background:radial-gradient(circle at 30% 30%,#eef59a,#7f8a20 60%,#1b200a);animation-delay:-2s"></div>
+ <div class="planet" style="left:3000px;top:20%;width:200px;height:200px;background:radial-gradient(circle at 30% 30%,#00ff99,#146a52 55%,#06130f);animation-delay:-4s"></div>
+ <div class="planet" style="left:4300px;top:10%;width:120px;height:120px;background:radial-gradient(circle at 30% 30%,#e6f08a,#5c6a14 55%,#10140a);animation-delay:-1s"></div>
+ <div class="title">LIYA ELIZABETH<i>ROJI</i><small>Building ideas. Exploring intelligence. Creating impact.<br>Walk right: A / D or arrow keys</small></div>
+ <div id="sts"></div><div class="box" id="box" style="left:5000px"></div><div class="ground"></div>
+ <div id="pl" aria-hidden="true"><div class="solid"><svg viewBox="0 0 60 100" width="60" height="100"><path d="M44 80q20-4 11-28" stroke="#f4f4f8" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="29" y="7" width="2" height="9" fill="#9aa"/><ellipse class="rot" cx="17" cy="6" rx="14" ry="2" fill="#00FF99"/><ellipse class="rot" cx="43" cy="6" rx="14" ry="2" fill="#00FF99"/><polygon points="13,34 15,17 28,27" fill="#f4f4f8"/><polygon points="47,34 45,17 32,27" fill="#f4f4f8"/><polygon points="17,30 18,22 24,27" fill="#9fffd6"/><circle cx="30" cy="42" r="18" fill="#f4f4f8"/><ellipse cx="23" cy="41" rx="2.4" ry="4.4" fill="#0a5"/><ellipse cx="37" cy="41" rx="2.4" ry="4.4" fill="#0a5"/><path d="M28 48l2 2 2-2z" fill="#e88"/><path d="M8 46h10M8 50l10-2M52 46H42M52 50l-10-2" stroke="#99a" stroke-width="1" fill="none"/><rect x="14" y="60" width="32" height="24" rx="6" fill="#C8D44E"/><path d="M30 60l-7 10M30 60l7 10" stroke="#080B0A" stroke-width="2" fill="none"/><rect x="17" y="84" width="9" height="14" rx="3" fill="#222"/><rect x="34" y="84" width="9" height="14" rx="3" fill="#222"/></svg></div><div id="orb"></div></div>
+</div>
+<div id="panel" role="region" aria-live="polite" aria-label="Section details"></div>
+<div id="flat"></div>
+<div id="joy"><button id="bl" aria-label="Move left">A</button><button id="bj" aria-label="Jump">W</button><button id="br" aria-label="Move right">D</button></div>
+<div id="hint">A/D or ← → move · SPACE jump · click a tower to warp · C confetti · Esc close</div>
+<div class="md" id="md" role="dialog" aria-modal="true" aria-label="Project case study"><button class="b" id="mx" style="position:fixed;top:12px;right:12px">Close</button><div id="mb"></div></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image preview"><div class="ph" id="li"></div><div style="max-width:680px"><h3 id="lt"></h3><p id="lm"></p></div>
+ <div><button class="b" id="lp">Previous</button><button class="b" id="ln">Next</button><button class="b" id="lx">Close</button></div></div>
+<script>
+/* ================= EDIT HERE: all content lives in DATA =================
+   Images: save files under /assets and set the path. "" or a missing file shows a placeholder. */
+const DATA={
+ resume:"resume%20(1).pdf",profile:"profile.jpeg",
+ email:"liyaelizabethroji@gmail.com",linkedin:"https://linkedin.com/in/liya-elizabeth-roji-65794a290",github:"https://github.com/liyaroji",
+ bio:"B.Tech Computer Science student (CGPA 9.30/10) with a strong base in data structures, algorithms and OOP, and hands-on experience across web, IoT and data analysis. Hackathon winner and national-level finalist who enjoys planning features, working in teams and presenting solutions.",
+ interests:["AI & ML","Mathematics","Quantum Computing","Cryptography","Full-stack","Data analysis"],
+ edu:"B.Tech CSE · Viswajyothi College of Engineering and Technology, Vazhakulam · 2023 – present · CGPA 9.30/10. Class XII (CBSE) 84.4%, Class X (CBSE) 94.8%.",
+ projects:[
+ {t:"MIRROR",s:"Real-time detection of implicit demographic assumptions in LLM outputs · Browser extension",
+  d:"MIRROR is a browser extension that watches what a large language model writes and flags implicit demographic assumptions as the response appears, so the reader can spot biased or presumptive answers before acting on them.",
+  problem:"AI assistants often fill gaps with assumptions about who is asking, such as their gender, age, culture or background, without saying so. These assumptions are easy to miss because they sit inside otherwise helpful answers.",
+  built:"An extension that reads model output in the page, detects wording that presumes something about the user's demographics, and highlights it in real time with a clear signal for the reader.",
+  features:["Real-time detection while the response is displayed","Highlights presumptive or biased phrasing in the page","Runs in the browser, with no separate app to open"],
+  r:["Developed the browser extension","Designed the real-time detection flow"],tech:["JavaScript","Browser extension","NLP","LLMs"],outcome:"She Builds Tech 3.0 AI Hackathon: Winner (Top 10)",gh:"https://github.com/seonaann/mirror"},
+ {t:"CleanScope",s:"Civic-tech waste management app · SAP Hackathon finalist",
+  d:"CleanScope connects citizens with local authorities to deal with waste. Citizens report waste issues and track whether they get resolved, while authorities see and act on those reports.",
+  problem:"Waste complaints are hard to report and harder to follow up. Citizens rarely find out what happened, and authorities lack a clear picture of where the problems are.",
+  built:"A platform with separate citizen and authority roles, a map that shows pinned reports and hotspots with navigation, and a points-to-rewards concept to encourage people to keep reporting.",
+  features:["Report waste issues and track resolution","Citizen and authority roles","Map view with pinned reports, hotspots and navigation (Google Maps API)","Points-to-rewards concept"],
+  r:["Designed the platform and the citizen/authority roles","Defined the map-based visualisation","Prepared the demo and the documentation that took the team to the finals"],tech:["Google Maps API","Firebase","React.js"],outcome:"Finalist at the SAP Hackathon, Coimbatore, reaching the 4th and final level among shortlisted teams."},
+ {t:"Smart Energy Usage Tracker",s:"IoT energy monitoring · UST SIGHT 3.0 Hackfest, Round 2",
+  d:"A system that measures household energy use in real time and shows it appliance by appliance, so people can see where their electricity goes and react to it.",
+  problem:"Most households only see one monthly bill, which hides which appliances use the most power and when usage spikes.",
+  built:"An ESP32-based device that sends readings to a Firebase cloud backend, with a web and mobile dashboard for appliance-wise usage, historical trends, analytics and alerts.",
+  features:["Real-time monitoring through an ESP32 and sensors","Cloud sync with Firebase","Appliance-wise usage and historical trends","Usage analytics and alerts","LCD display on the device"],
+  r:["Designed the ESP32 and Firebase system","Defined the dashboard workflow for appliance-wise usage and trends","Supported the sensor and LCD integration and the technical documentation"],tech:["ESP32","Firebase","IoT","Dashboard"],outcome:"Advanced to Round 2 at UST SIGHT 3.0 Hackfest.",gh:"https://github.com/seonaann/flux"},
+ {t:"Period Tracker",s:"Women's health app",
+  d:"A women's health app that helps users track their cycle and understand it, with predictions, reminders and insights drawn from what they log.",
+  problem:"Remembering dates and spotting patterns in a cycle is easy to get wrong when done by hand.",
+  built:"An app with cycle tracking, period prediction, reminders and health insights based on user inputs, wrapped in a clean and intuitive interface.",
+  features:["Cycle tracking","Period prediction","Reminders","Health insights from user inputs"],
+  r:["Developed the app","Designed the clean, intuitive UI"],tech:["App development","UI design"],outcome:"",gh:"https://github.com/liyaroji/period_tracker"},
+  {t:"AI Safety Evaluation Framework",s:"Testing whether a chatbot stays in its role · Restaurant Assistant proof of concept",
+  d:"Many chatbots are built for one job, such as customer support, restaurant help or bookings, yet users keep asking them things outside that role. This project is a research evaluation framework that measures how well a chatbot stays within its assigned role, so its weaknesses can be found before deployment.",
+  problem:"Even when a chatbot should not answer an out-of-scope question, the AI model still processes it. That consumes tokens and increases operating costs, and it shows the bot can be pulled away from its purpose.",
+  built:"As a proof of concept, a Restaurant Assistant Chatbot that answers only restaurant queries: menu information, reservations and operating hours. Around it sits an evaluation layer that tests how the chatbot behaves under out-of-scope requests, role override attempts, prompt injections and other challenging scenarios.",
+  features:["Restaurant assistant limited to menu, reservations and operating hours","Evaluation layer that scores how well the bot stays within its role","Test scenarios: out-of-scope requests, role override attempts and prompt injections","Built on Ollama with Llama 3.2"],
+  r:["Built the Restaurant Assistant Chatbot and its evaluation layer","Worked through AI safety, prompt engineering and LLM integration for a domain-specific assistant"],tech:["React.js","Node.js","Express.js","Ollama (Llama 3.2)","JavaScript"],outcome:"",gh:"https://github.com/liyaroji/AI_safety_research_evaluation_framework"},
+ {t:"AI Hallucination Spotter",s:"Ultra Spotter · Educational game for spotting AI misinformation",
+  d:"An interactive, web-based game that sharpens a player's ability to detect misinformation written by AI. Players read short factual paragraphs in which one sentence is a hallucination: subtly incorrect, misattributed or entirely fabricated.",
+  problem:"As generative AI spreads through education, research and daily life, people rely on its output, but it can state wrong information with full confidence. Many users cannot spot these hallucinations, which spreads misinformation and leads to poor decisions.",
+  built:"A lightweight HTML, CSS and JavaScript game that makes players hunt for the error instead of reading passively. Hallucinations are grouped by type, such as temporal, logical and statistical, so players learn the patterns of AI mistakes. After each answer, the game reveals the factual truth and explains why the AI was wrong. The interface is deliberately maximalist: bold typography, layered collage visuals and loud colour, so it feels like an experience rather than a plain website.",
+  features:["Sentence-level scrubbing: a custom JavaScript parser turns each paragraph into clickable sentences","Categorised hallucinations: temporal glitches, statistical fabrications and logic loops","Truth-Card feedback: a modal shows the verified fact and explains the error","Session randomisation with a Fisher-Yates shuffle, so each round differs","Performance dashboard tracking detection accuracy and average spotting time"],
+  r:["Designed and built the game and its maximalist interface"],tech:["HTML","CSS","JavaScript","VS Code","Git"],outcome:"",gh:"https://github.com/liyaroji/aihallu"}],
+ cats:{all:"All",ksum:"KSUM",tink:"Tink-Her Hack",sap:"SAP",ust:"UST SIGHT",team:"Team",cert:"Certificates",workshop:"Workshops"},
+ ach:[ /* cat key must exist in cats. h = tile height */
+ {c:"ksum",t:"She Builds Tech 3.0 AI Hackathon: Winner (Top 10)",e:"KSUM, Kerala Startup Mission",d:"",p:"Kalamassery",x:"Selected among the top 10 projects.",img:"assets/achievements/ksum-1.jpeg",h:200},
+ {c:"cert",t:"KSUM certificate",e:"She Builds Tech 3.0",d:"",p:"Kalamassery",x:"Certificate awarded at the KSUM She Builds Tech 3.0 event.",img:"assets/achievements/ksum-cert.jpeg",h:130},
+ {c:"tink",t:"Tink-Her Hack 3.0: First place",e:"Tink-Her Hack 3.0",d:"",p:"VJCET",x:"First-place winning team.",img:"assets/achievements/tinkher-1.jpeg",h:170},
+ {c:"tink",t:"Tink-Her Hack trophy",e:"Tink-Her Hack 3.0",d:"",p:"VJCET",x:"Trophy moment.",img:"assets/achievements/tinkher-2.jpeg",h:230},
+ {c:"sap",t:"SAP Hackathon: Finalist",e:"SAP Hackathon",d:"",p:"Coimbatore",x:"Reached the 4th and final level among shortlisted teams.",img:"assets/achievements/sap-1.jpeg",h:190},
+ {c:"ust",t:"UST SIGHT 3.0 Hackfest: Round 2",e:"UST SIGHT 3.0",d:"",p:"",x:"Advanced to Round 2 with the Smart Energy Usage Tracker.",img:"assets/achievements/ust-1.jpeg",h:150},
+ {c:"tech fest",t:"Team photograph",e:" SOURCE CODE by TinkerHub VJCET, part of Bodhi 2026 Tech Fest at VJCET ",d:"won 3rd place",p:"VJCET",x:"Team photo from the event.",img:"assets/achievements/team-1.jpeg",h:220},
+ {c:"quiz competition",t:"College Quiz Competition",d:"",p:"VJCET",x:"college quiz competition as a fun extracurricular activity—and we ended up winning! 🏆",img:"assets/achievements/workshop-1.jpeg",h:170}],
+ skills:{"Programming":["Python","Java","C","C++","JavaScript","HTML","CSS"],"Frontend & Backend":["React.js","Responsive Web Design","REST APIs"],"Databases":["MySQL","PostgreSQL","Database Design","Firebase"],"Data & ML":["EDA","Preprocessing","Feature Engineering","NLP basics","Model Evaluation"],"Core CS":["DSA","OOP","DBMS","Operating Systems","Networks","Algorithm Analysis","Compiler Design"],"Tools":["Git & GitHub","VS Code","Jupyter","Google Colab","Google Maps API"]},
+ time:[["2023","Started B.Tech CSE","Viswajyothi College of Engineering and Technology."],["2024","Data Analysis Intern","One-week remote program: EDA and storytelling on a Netflix dataset."],["2026","UST SIGHT 3.0: Round 2","Smart Energy Usage Tracker."],["2025","SAP Hackathon: Finalist","CleanScope reached the final level in Coimbatore."],["2024","Tink-Her Hack 3.0: 1st place","VJCET."],["2026","She Builds Tech 3.0: Top 10","KSUM AI Hackathon, Kalamassery."],["Jun 2025 – May 2026","Content Head, IEEE SPS, VJCET","Led content planning; helped organise a Drone Workshop and a Technical Quiz."]]
+};
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id),E=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ph=(src,label,st="")=>`<div class="ph" style="${st}"><span>Add photo<br>${E(src||label)}</span>${src?`<img src="${E(src)}" alt="${E(label)}" onerror="this.remove()">`:""}</div>`;
+const tags=a=>a.map(x=>`<span class="tag">${E(x)}</span>`).join("");
+const D=DATA;
+/* ---------- sections (one per tower) ---------- */
+const S=[
+{x:1500,n:"ABOUT",h:()=>`<h2>The Mind</h2><div style="display:grid;grid-template-columns:1fr 130px;gap:14px"><div><p>${E(D.bio)}</p><div style="margin-top:8px">${tags(D.interests)}</div></div>${ph(D.profile,"Portrait of Liya Elizabeth Roji","aspect-ratio:3/4")}</div><p style="margin-top:10px">${E(D.edu)}</p>`},
+{x:2200,n:"PROJECTS",h:()=>`<h2>The Creations</h2><p>Select a project for its case study.</p>${D.projects.map((p,i)=>`<button class="pj" data-case="${i}"><b>${E(p.t)}</b><br>${E(p.s)}<br>${tags(p.tech)}</button>`).join("")}`},
+{x:2900,n:"ACHIEVEMENTS",win:1,h:()=>`<h2>Hall of Recognition</h2><p>Winner at KSUM She Builds Tech 3.0 and Tink-Her Hack 3.0. Finalist at SAP. Round 2 at UST SIGHT 3.0.</p><div class="gal"></div>`},
+{x:3600,n:"EXPERTISE",h:()=>`<h2>The Arsenal</h2>${Object.entries(D.skills).map(([k,v])=>`<h3>${E(k)}</h3>${tags(v)}`).join("")}`},
+{x:4300,n:"JOURNEY",h:()=>`<h2>The Timeline</h2>${D.time.map(t=>`<h3>${E(t[1])}<em>${E(t[0])}</em></h3><p>${E(t[2])}</p>`).join("")}`},
+{x:5000,n:"CONTACT",h:()=>`<h2>The Connection</h2><p><a href="mailto:${D.email}">${D.email}</a><br><a href="${D.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="${D.github}" target="_blank" rel="noopener">GitHub</a></p><a class="b" href="${D.resume}" download="Liya_Elizabeth_Roji_Resume.pdf">Download resume</a>`}];
+/* ---------- gallery + lightbox ---------- */
+let cat="all",shown=[],li=0,last;
+const metaText=a=>[a.e,a.d,a.p].filter(Boolean).join(" · ");
+function gal(){document.querySelectorAll(".gal").forEach(g=>{
+ const used=["all",...new Set(D.ach.map(a=>a.c))];shown=D.ach.filter(a=>cat=="all"||a.c==cat);
+ g.innerHTML=`<div role="group" aria-label="Filter">${used.map(k=>`<button class="b${k==cat?" on":""}" data-cat="${k}" aria-pressed="${k==cat}">${E(D.cats[k]||k)}</button>`).join("")}</div><div class="mas">${shown.map((a,i)=>{
+  const meta=metaText(a); const caption = meta ? `${meta}${a.x?`<br>${E(a.x)}`:""}` : (a.x?E(a.x):"");
+  return `<button class="tile" data-lb="${i}" aria-label="Open ${E(a.t)}">${ph(a.img,a.t,`height:${a.h||180}px`)}<span class="cap"><b>${E(a.t)}</b>${caption?`<br>${caption}`:""}</span></button>`;
+ }).join("")}</div>`})}
+function lb(i){li=(i+shown.length)%shown.length;const a=shown[li];last=document.activeElement;
+ $("li").outerHTML=ph(a.img,a.t).replace('class="ph"','class="ph" id="li"');$("lt").textContent=a.t;$("lm").textContent=[metaText(a),a.x].filter(Boolean).join(". ");$("lb").classList.add("on");$("lx").focus()}
+function closeAll(){["lb","md"].forEach(i=>$(i).classList.remove("on"));$("menu").classList.remove("open");last&&last.focus&&last.focus();last=0}
+const open=()=>$("lb").classList.contains("on")||$("md").classList.contains("on")||$("menu").classList.contains("open");
+function cs(i){const p=D.projects[i];last=document.activeElement;
+ const sec=(h,b)=>b?`<h3>${h}</h3>${b}`:"",ul=a=>a&&a.length?`<ul>${a.map(r=>`<li>${E(r)}</li>`).join("")}</ul>`:"",pr=x=>x?`<p>${E(x)}</p>`:"";
+ $("mb").innerHTML=`<article class="cs"><h2>${E(p.t)}</h2><p class="lead">${E(p.s)}</p>${sec("Overview",pr(p.d))}${sec("The problem",pr(p.problem))}${sec("What I built",pr(p.built))}${sec("Key features",ul(p.features))}${sec("My contribution",ul(p.r))}${sec("Outcome",pr(p.outcome))}<div style="margin:16px 0 6px">${tags(p.tech)}</div>${p.gh?`<a class="b" href="${E(p.gh)}" target="_blank" rel="noopener">GitHub</a>`:""}</article>`;
+ $("md").classList.add("on");$("mx").focus()}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-cat],[data-lb],[data-case]");if(!t)return;
+ if(t.dataset.cat){cat=t.dataset.cat;gal()}else if(t.dataset.lb!==undefined)lb(+t.dataset.lb);else cs(+t.dataset.case)});
+$("lp").onclick=()=>lb(li-1);$("ln").onclick=()=>lb(li+1);$("lx").onclick=$("mx").onclick=closeAll;
+/* ---------- recruiter (flat) view ---------- */
+$("flat").innerHTML=S.map(s=>`<section aria-label="${s.n}">${s.h()}</section>`).join("");
+$("fv").onclick=()=>{const on=document.body.classList.toggle("flat");$("fv").textContent=on?"Walk the world":"Recruiter view";$("fv").setAttribute("aria-pressed",on);gal()};
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;if(RM)$("fv").click();
+/* ---------- world ---------- */
+$("pl").insertAdjacentHTML("beforeend",'<div class="ghost" aria-hidden="true">'+$("pl").querySelector(".solid").innerHTML+"</div>");
+const tr=[],W=5400,pl=$("pl"),cam=$("cam"),panel=$("panel"),menu=$("menu"),mp=$("map");
+let px=300,vy=0,y=0,face=1,tgt=null,act=-1,cx=0,k={},t=0;
+S.forEach((s,i)=>{$("sts").insertAdjacentHTML("beforeend",`<button class="st" id="s${i}" style="left:${s.x}px" aria-label="Go to ${s.n}"><span>${s.n}</span><div class="tw"></div></button>`);
+ $("s"+i).onclick=()=>tgt=s.x;menu.insertAdjacentHTML("beforeend",`<button data-w="${i}">${s.n}</button>`);mp.insertAdjacentHTML("afterbegin",`<u style="left:${s.x/W*100}%"></u>`)});
+menu.onclick=e=>{const i=e.target.dataset.w;if(i!==undefined){document.body.classList.remove("flat");$("fv").textContent="Recruiter view";tgt=S[i].x;menu.classList.remove("open")}};
+$("burger").onclick=()=>{const o=menu.classList.toggle("open");$("burger").setAttribute("aria-expanded",o)};
+const typing=e=>/INPUT|TEXTAREA/.test(e.target.tagName);
+onkeydown=e=>{const c=e.key.toLowerCase();if(c=="escape")return closeAll();if(open()){if($("lb").classList.contains("on")){if(c=="arrowright")lb(li+1);if(c=="arrowleft")lb(li-1)}return}
+ if(typing(e)||document.body.classList.contains("flat"))return;k[c]=1;if(c==" "||c=="w"||c=="arrowup"){jump();e.preventDefault()}if(c=="c")confetti();tgt=null};
+onkeyup=e=>k[e.key.toLowerCase()]=0;
+[["bl","a"],["br","d"],["bj","w"]].forEach(([id,key])=>{const b=$(id);b.onpointerdown=()=>{k[key]=1;tgt=null;if(key=="w")jump()};["pointerup","pointerleave","pointercancel"].forEach(v=>b.addEventListener(v,()=>k[key]=0))});
+function jump(){if(y<=0)vy=15}
+function confetti(n=70){const c=["#C8D44E","#00FF99","#F5F5F0","#1A3D3A"];for(let i=0;i<n;i++){const d=document.createElement("i");d.className="cp";d.style.cssText=`left:${Math.random()*100}%;background:${c[i%4]};--x:${(Math.random()-.5)*200}px;--r:${Math.random()*900}deg;animation-duration:${2+Math.random()*2}s`;document.body.appendChild(d);setTimeout(()=>d.remove(),4200)}}
+const cv=$("stars"),g=cv.getContext("2d");let st=[];
+function rs(){cv.width=innerWidth;cv.height=innerHeight;st=Array.from({length:150},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.8+.3,z:Math.random()*.25+.03,p:Math.random()*6}))}rs();onresize=rs;
+function loop(){t++;
+ if(!document.body.classList.contains("flat")&&!open()){
+ const l=k.a||k.arrowleft,r=k.d||k.arrowright;let vx=l?-6:r?6:0;
+ if(tgt!==null&&!vx){const d=tgt-px;if(Math.abs(d)<8)tgt=null;else vx=Math.sign(d)*9}
+ if(vx){face=vx>0?1:-1;px=Math.max(80,Math.min(W-80,px+vx))}
+ if(y>0||vy>0){y+=vy;vy-=.7;if(y<=0){y=0;vy=0}}
+ pl.style.left=px+"px";pl.style.transform=`translateY(${-y}px) scaleX(${face})`;pl.classList.toggle("walk",!!vx&&y==0);pl.classList.toggle("idle",!vx&&y==0);
+ if(vx||y>0)tr.push({x:px+face*38,y:innerHeight*.78-52-y,a:1});
+ cx+=(Math.max(0,Math.min(W-innerWidth,px-innerWidth*.4))-cx)*.1;cam.style.transform=`translateX(${-cx}px)`;
+ let n=-1;S.forEach((s,i)=>{if(Math.abs(s.x-px)<110)n=i;$("s"+i).classList.toggle("on",i==n)});
+ if(n!=act){act=n;if(n>=0){panel.innerHTML=S[n].h();panel.scrollTop=0;panel.classList.add("show");gal();if(S[n].win)confetti(60)}else panel.classList.remove("show")}
+ $("me").style.left=px/W*100+"%";pl.classList.toggle("near",n>=0);$("box").classList.toggle("open",n==5)}
+ g.clearRect(0,0,cv.width,cv.height);g.fillStyle="#F5F5F0";
+ st.forEach(s=>{g.globalAlpha=RM?.6:.4+.6*Math.abs(Math.sin(t*.03+s.p));g.fillRect((((s.x-cx*s.z)%cv.width)+cv.width)%cv.width,s.y,s.r,s.r)});
+ tr.forEach((q,i)=>{q.a-=.02;g.globalAlpha=Math.max(q.a,0)*.8;g.fillStyle=i%2?"#00FF99":"#C8D44E";g.fillRect(q.x-cx,q.y+Math.sin(i)*3,3,3)});while(tr.length&&tr[0].a<=0)tr.shift();
+ requestAnimationFrame(loop)}
+loop();gal();
+</script>
+</body>
+</html>
